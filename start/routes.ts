@@ -20,5 +20,22 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
+Route.where('id', Route.matchers.number())
+
 Route.get('/hello-world/:id?', 'HelloWorldsController.hello')
 Route.get('/parametro-coringa/:paramFixo/*', 'ParametroCoringasController.coringa')
+
+Route.group(() => {
+  Route.get('/', 'TestGroupsController.testGet')
+}).prefix('/api/v1')
+Route.group(() => {
+  Route.get('/', 'UsersController.index')
+  Route.get('/:id', 'UsersController.show')
+  Route.post('/', 'UsersController.store')
+  Route.put('/:id', 'UsersController.update')
+  Route.delete('/:id', 'UsersController.destroy')
+}).prefix('/users')
+
+Route.group(() => {
+  Route.resource('/', 'DogsController').apiOnly()
+}).prefix('/dogs')
