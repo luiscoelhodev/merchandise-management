@@ -1,8 +1,10 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Env from '@ioc:Adonis/Core/Env'
 
 export default class UsersController {
   public async index({ response }: HttpContextContract) {
-    return response.ok({ message: `Returns all users.` })
+    const emailEnv = Env.get('TEST_EMAIL')
+    return response.ok({ message: `Returns all users.`, emailEnv: emailEnv })
   }
 
   // public async create({}: HttpContextContract) {} -> Somente MVC
