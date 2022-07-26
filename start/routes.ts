@@ -19,15 +19,9 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import Database from '@ioc:Adonis/Lucid/Database'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-Route.where('id', Route.matchers.number())
-
-Route.get('/hello-world/:id?', 'HelloWorldsController.hello')
-Route.get('/parametro-coringa/:paramFixo/*', 'ParametroCoringasController.coringa')
-
-Route.group(() => {
-  Route.get('/', 'TestGroupsController.testGet')
-}).prefix('/api/v1')
 Route.group(() => {
   Route.get('/', 'UsersController.index')
   Route.get('/:id', 'UsersController.show')
@@ -36,6 +30,4 @@ Route.group(() => {
   Route.delete('/:id', 'UsersController.destroy')
 }).prefix('/users')
 
-Route.group(() => {
-  Route.resource('/', 'DogsController').apiOnly()
-}).prefix('/dogs')
+Route.get('/test_db_connections', 'TestDbConnectionsController.test')

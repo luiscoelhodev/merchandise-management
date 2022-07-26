@@ -1,16 +1,19 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Env from '@ioc:Adonis/Core/Env'
 
 export default class UsersController {
   public async index({ response }: HttpContextContract) {
-    const emailEnv = Env.get('TEST_EMAIL')
-    return response.ok({ message: `Returns all users.`, emailEnv: emailEnv })
+    return response.ok({ message: `Returns all users.` })
   }
 
   // public async create({}: HttpContextContract) {} -> Somente MVC
 
-  public async store({ response }: HttpContextContract) {
-    return response.ok({ message: `Stores a user in the database.` })
+  public async store({ request, response, logger, route }: HttpContextContract) {
+    const body = request.all()
+    const name = request.only(['name'])
+    logger.info('store request')
+    console.log('route >> ', route)
+
+    return response.ok({ body, name })
   }
 
   public async show({ response, params }: HttpContextContract) {
