@@ -19,8 +19,6 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import Database from '@ioc:Adonis/Lucid/Database'
-import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 Route.group(() => {
   Route.get('/', 'UsersController.index')
