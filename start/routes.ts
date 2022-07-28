@@ -19,13 +19,24 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+
+// Public Routes
+
+Route.post('/users', 'UsersController.store')
+Route.post('/login', 'AuthController.login')
+Route.get('/test_db_connections', 'TestDbConnectionsController.test')
+
+// Authenticated Routes (Private)
+Route.get('/test_auth', ({ response }: HttpContextContract) => {
+  return response.ok({ message: 'You are authenticated.' })
+}).middleware(['auth', 'is:admin,client'])
 
 Route.group(() => {
   Route.get('/', 'UsersController.index')
   Route.get('/:id', 'UsersController.show')
-  Route.post('/', 'UsersController.store')
   Route.put('/:id', 'UsersController.update')
   Route.delete('/:id', 'UsersController.destroy')
-}).prefix('/users')
-
-Route.get('/test_db_connections', 'TestDbConnectionsController.test')
+})
+  .prefix('/users')
+  .middleware('auth')

@@ -53,6 +53,15 @@
     "picomatch" "^2.3.1"
     "slash" "^3.0.0"
 
+"@adonisjs/auth@^8.2.1":
+  "integrity" "sha512-rLtbefIzyHAq3UZgiE47WyZyc+92t4jPF8n/MeRV6FNIIdnAdQypBrz+K5lZZDNF5n3kOcbeii6SNH4KvDm6Og=="
+  "resolved" "https://registry.npmjs.org/@adonisjs/auth/-/auth-8.2.1.tgz"
+  "version" "8.2.1"
+  dependencies:
+    "@poppinss/hooks" "^5.0.3"
+    "@poppinss/utils" "^4.0.4"
+    "luxon" "^2.4.0"
+
 "@adonisjs/bodyparser@^8.0.0", "@adonisjs/bodyparser@^8.1.6":
   "integrity" "sha512-8OyQO4BeIKK+xJSH1YdSZVTllTsq0uTHcZw4a/7eShXKaVT0z8/IupIG2uymVpPPSfu+3kbN9ueipqFsvz9MpA=="
   "resolved" "https://registry.npmjs.org/@adonisjs/bodyparser/-/bodyparser-8.1.6.tgz"
@@ -75,7 +84,7 @@
   dependencies:
     "@poppinss/utils" "^4.0.2"
 
-"@adonisjs/core@^5.0.0", "@adonisjs/core@^5.1.0", "@adonisjs/core@^5.8.0":
+"@adonisjs/core@^5.0.0", "@adonisjs/core@^5.1.0", "@adonisjs/core@^5.7.1", "@adonisjs/core@^5.8.0":
   "integrity" "sha512-G2J31nkiZRHGxOafgnS0iyvns5BVqUqxnuNaTv17pD6DhIRqiFu2kigYNpHzBie/MKjT5MmFWXLu21MwlA8/7A=="
   "resolved" "https://registry.npmjs.org/@adonisjs/core/-/core-5.8.5.tgz"
   "version" "5.8.5"
@@ -191,7 +200,7 @@
     "abstract-logging" "^2.0.1"
     "pino" "^6.14.0"
 
-"@adonisjs/lucid@^18.1.0":
+"@adonisjs/lucid@^18.0.0", "@adonisjs/lucid@^18.1.0":
   "integrity" "sha512-RAUtsBSkdEC3hkbcRawY+v2OljX1zt/b1zEuBN0/4kXHNYp3y+dCuF73OGVoWpwReJsEsvKUsGmZ1Nyn0DbBSw=="
   "resolved" "https://registry.npmjs.org/@adonisjs/lucid/-/lucid-18.1.0.tgz"
   "version" "18.1.0"
