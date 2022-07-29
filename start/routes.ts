@@ -33,10 +33,16 @@ Route.get('/test_auth', ({ response }: HttpContextContract) => {
 }).middleware(['auth', 'is:admin,client'])
 
 Route.group(() => {
+  Route.put('/:id', 'UsersController.update')
+})
+  .prefix('/users')
+  .middleware(['auth', 'is:client'])
+
+// Admin-only routes
+Route.group(() => {
   Route.get('/', 'UsersController.index')
   Route.get('/:id', 'UsersController.show')
-  Route.put('/:id', 'UsersController.update')
   Route.delete('/:id', 'UsersController.destroy')
 })
   .prefix('/users')
-  .middleware('auth')
+  .middleware(['auth', 'is:admin'])

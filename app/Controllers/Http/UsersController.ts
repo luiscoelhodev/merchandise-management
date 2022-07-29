@@ -7,8 +7,33 @@ import StoreValidator from 'App/Validators/User/StoreValidator'
 import UpdateValidator from 'App/Validators/User/UpdateValidator'
 
 export default class UsersController {
-  public async index({ response }: HttpContextContract) {
-    return response.ok({ message: `Returns all users.` })
+  public async index({ response, request }: HttpContextContract) {
+    const { page, itemsPerPage, noPagination } = request.qs()
+
+    if (noPagination) {
+      const usersWithoutPagination = await User.query()
+        .preload('addresses')
+        .preload('roles', (roleTable) => {
+          roleTable.select('id', 'name')
+        })
+      return response.ok(usersWithoutPagination)
+    }
+
+    try {
+      const users = await User.query()
+        .preload('addresses')
+        .preload('roles', (roleTable) => {
+          roleTable.select('id', 'name')
+        })
+        .paginate(page || 1, itemsPerPage || 2)
+
+      return response.ok(users)
+    } catch (error) {
+      return response.badRequest({
+        message: 'Error in listing users',
+        originalErrorMessage: error.message,
+      })
+    }
   }
 
   // public async create({}: HttpContextContract) {} -> Somente MVC
@@ -71,7 +96,16 @@ export default class UsersController {
 
   public async show({ response, params }: HttpContextContract) {
     const { id } = params
-    return response.ok({ message: `Returns user with ID ${id}.` })
+
+    try {
+      const userFound = await User.query()
+        .where('secure_id', id)
+        .preload('addresses')
+        .preload('roles')
+      return response.ok(userFound)
+    } catch (error) {
+      return response.notFound({ message: `User not found.`, originalErrorMessage: error.message })
+    }
   }
 
   // public async edit({}: HttpContextContract) {} -> Somente MVC
@@ -136,6 +170,13 @@ export default class UsersController {
   }
 
   public async destroy({ response, params }: HttpContextContract) {
-    return response.ok({ message: `Deletes a user with ID ${params.id}.` })
+    const { id } = params
+
+    try {
+      await User.query().where('secure_id', id).delete()
+      return response.ok({ message: `User deleted succesfully!` })
+    } catch (error) {
+      return response.notFound({ message: `User not found.`, originalErrorMessage: error.message })
+    }
   }
 }
