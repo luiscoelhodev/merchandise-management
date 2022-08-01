@@ -38,6 +38,10 @@ Route.group(() => {
   Route.resource('/products', 'ProductsController').apiOnly()
 }).middleware(['auth', 'is:admin,employee'])
 
+Route.group(() => {
+  Route.resource('/categories', 'CategoriesController').apiOnly()
+}).middleware(['auth', 'is:admin,employee'])
+
 // Admin-only routes
 Route.group(() => {
   Route.get('/', 'UsersController.index')
@@ -46,3 +50,5 @@ Route.group(() => {
 })
   .prefix('/users')
   .middleware(['auth', 'is:admin'])
+
+Route.post('users/access_allow', 'UsersController.AccessAllow').middleware(['auth', 'is:admin'])
