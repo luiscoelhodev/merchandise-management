@@ -1,8 +1,4 @@
 /*
-|--------------------------------------------------------------------------
-| Routes
-|--------------------------------------------------------------------------
-|
 | This file is dedicated for defining HTTP routes. A single file is enough
 | for majority of projects, however you can define routes in different
 | files and just make sure to import them inside this file. For example
@@ -37,6 +33,10 @@ Route.group(() => {
 })
   .prefix('/users')
   .middleware(['auth', 'is:client'])
+
+Route.group(() => {
+  Route.resource('/products', 'ProductsController').apiOnly()
+}).middleware(['auth', 'is:admin,employee'])
 
 // Admin-only routes
 Route.group(() => {
