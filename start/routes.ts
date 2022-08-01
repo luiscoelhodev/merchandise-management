@@ -26,7 +26,7 @@ Route.get('/test_db_connections', 'TestDbConnectionsController.test')
 // Authenticated Routes (Private)
 Route.get('/test_auth', ({ response }: HttpContextContract) => {
   return response.ok({ message: 'You are authenticated.' })
-}).middleware(['auth', 'is:admin,client'])
+}).middleware(['auth', 'is:admin,client,employee'])
 
 Route.group(() => {
   Route.put('/:id', 'UsersController.update')
@@ -41,6 +41,10 @@ Route.group(() => {
 Route.group(() => {
   Route.resource('/categories', 'CategoriesController').apiOnly()
 }).middleware(['auth', 'is:admin,employee'])
+
+Route.group(() => {
+  Route.resource('cart', 'CartController').apiOnly()
+}).middleware(['auth', 'is:client'])
 
 // Admin-only routes
 Route.group(() => {
