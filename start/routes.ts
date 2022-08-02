@@ -43,7 +43,11 @@ Route.group(() => {
 }).middleware(['auth', 'is:admin,employee'])
 
 Route.group(() => {
-  Route.resource('cart', 'CartController').apiOnly()
+  Route.resource('/cart', 'CartController').apiOnly()
+}).middleware(['auth', 'is:client'])
+
+Route.group(() => {
+  Route.resource('/purchases', 'PurchasesController').only(['store', 'index', 'show'])
 }).middleware(['auth', 'is:client'])
 
 // Admin-only routes
