@@ -4,6 +4,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 import Address from 'App/Models/Address'
 import Role from 'App/Models/Role'
 import User from 'App/Models/User'
+import { sendMail } from 'App/Services/sendMail'
 import AccessAllowValidator from 'App/Validators/User/AccessAllowValidator'
 import StoreValidator from 'App/Validators/User/StoreValidator'
 import UpdateValidator from 'App/Validators/User/UpdateValidator'
@@ -39,8 +40,6 @@ export default class UsersController {
       })
     }
   }
-
-  // public async create({}: HttpContextContract) {} -> Somente MVC
 
   public async store({ request, response }: HttpContextContract) {
     await request.validate(StoreValidator)
@@ -83,6 +82,16 @@ export default class UsersController {
       })
     }
 
+    try {
+      await sendMail(user, 'email/welcome')
+    } catch (error) {
+      ;(await trx).rollback()
+      return response.badRequest({
+        message: 'Error in send email welcome',
+        originalError: error.message,
+      })
+    }
+
     ;(await trx).commit()
 
     let userFound
@@ -111,8 +120,6 @@ export default class UsersController {
       return response.notFound({ message: `User not found.`, originalErrorMessage: error.message })
     }
   }
-
-  // public async edit({}: HttpContextContract) {} -> Somente MVC
 
   public async update({ request, response, params }: HttpContextContract) {
     await request.validate(UpdateValidator)
